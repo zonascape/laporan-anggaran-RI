@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EHMZEPQ2TB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EHMZEPQ2TB');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>AUDIT ANGGARAN REPUBLIK INDONESIA (OPEN SOURCE)</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgjR0wNEw2GYZMuMhWbQq0rojscuD5Slg3wiPxH94XbAyNbhJkqqs3UBd0FjrRzgpRBowT8nOe3JeDPX2LSrCQgmRLkoSmiUA8H38oQQI2FOkOGcvaW5ypKDx5fXsTmtK5Phc4JwYozE967MVrJltpS44PdrnoJlFIM1724QaXQgjaLD9x3RIdcCy3DO3Y/s1600/favicon-32x32.png">
+
+  <!-- Link ke manifest.json -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000" id="meta-theme-color">
+
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --text-light: #111;
+      --bg-dark: #000000;
+      --text-dark: #eee;
+      --accent: #00a859;
+      --toggle-size: 56px;
+      --toggle-padding: 12px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Container iframe */
+    .app-frame {
+      flex: 1 1 auto;
+      display: block;
+      width: 100%;
+      height: calc(100vh - 0px);
+      border: none;
+    }
+
+    /* Install button */
+    #installButton {
+      position: fixed;
+      left: 16px;
+      bottom: 20px;
+      background-color: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      display: none;
+      z-index: 1200;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Iframe utama -->
+  <iframe id="appIframe" class="app-frame" src="https://nemesis.assai.id/?refresh=1" allowfullscreen allow="geolocation"></iframe>
+
+  <!-- Install button (muncul jika beforeinstallprompt tersedia) -->
+  <button id="installButton">Install Apps (safe)</button>
+
+
+  <script>
+  // --- Install prompt handling ---
+  let deferredPrompt;
+  const installButton = document.getElementById('installButton');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installButton.style.display = 'inline-block';
+  });
+
+  installButton.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    installButton.style.display = 'none';
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  });
+
+
+  // --- Service worker registration ---
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('ServiceWorker registered', reg.scope))
+        .catch(err => console.warn('ServiceWorker failed', err));
+    });
+  }
+  </script>
+</body>
+  </html>
